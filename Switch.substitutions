@@ -1,0 +1,5 @@
+file Switch.db
+{
+pattern {S, TA, DN}
+        {BL4A, Keithley, switcher}
+}

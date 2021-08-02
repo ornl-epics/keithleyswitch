@@ -1,0 +1,93 @@
+#############################################################################################
+record(stringin, "$(S):$(TA):$(DN):IDN") {
+  info(DESC, "Get the IDN string")
+  info(archive, "Monitor, 00:01:00")
+  field(DTYP, "stream")
+  field(INP, "@Switch.proto getIDN Switch1")
+  field(SCAN, "10 second")
+}
+
+record(stringin, "$(S):$(TA):$(DN):STATE") {
+  info(DESC, "Get close state")
+  info(archive, "Monitor, 00:01:00")
+  field(DTYP, "stream")
+  field(INP, "@Switch.proto getState Switch1")
+  field(SCAN, "1 second")
+}
+
+
+record( waveform, "$(S):$(TA):$(DN):STATEWF")
+{
+    field(DESC, "Board type names")
+    field(DTYP, "stream")
+    field(SCAN, "I/O Intr")
+    field(PINI, "YES")
+    field(FTVL, "STRING")
+    field(INP, "@Switch.proto getStatewf Switch1")
+
+}
+
+
+################################################################
+#SETS
+################################################################
+
+record(ao, "$(S):$(TA):$(DN):SETMEMLOC") {
+  field(DESC, "Set memory location")
+  field(FLNK, "$(S):$(TA):$(DN):SETMEMLOCSTPS")
+}
+
+ 
+record(seq, "$(S):$(TA):$(DN):SETMEMLOCSTPS") {
+  field(DESC, "Set memory location steps")
+  field(DOL1, "$(S):$(TA):$(DN):SETMEMLOC.VAL")
+  field(LNK1, "$(S):$(TA):$(DN):MEMRECALL.VAL")
+  field(DLY2, "0.5")
+  field(LNK2, "$(S):$(TA):$(DN):DISPLAY.VAL")
+  field(DOL3, "$(S):$(TA):$(DN):SETMEMLOC.VAL")
+  field(LNK3, "$(S):$(TA):$(DN):WRITEMEMLOC.VAL")
+  field(DOL4, "1")
+  field(DLY4, "0.5")
+  field(LNK4, "$(S):$(TA):$(DN):MEMRECALL.PROC")
+  field(DOL5, "1")
+  field(DLY5, "0.5")
+  field(LNK5, "$(S):$(TA):$(DN):DISPLAY.PROC")
+  field(DOL6, "1")
+  field(DLY6, "0.5")
+  field(LNK6, "$(S):$(TA):$(DN):WRITEMEMLOC.PROC")
+}
+
+record(ao, "$(S):$(TA):$(DN):MEMRECALL") {
+  info(DESC, "Recall memory")
+  info(archive, "Monitor, 00:01:00")
+  field(DTYP, "stream")
+  field(OUT, "@Switch.proto setMemRecall Switch1")
+}
+
+record(ao, "$(S):$(TA):$(DN):DISPLAY") {
+  info(DESC, "Set Front Display")
+  info(archive, "Monitor, 00:01:00")
+  field(DTYP, "stream")
+  field(OUT, "@Switch.proto setFrontDisplay Switch1")
+}
+
+record(ao, "$(S):$(TA):$(DN):WRITEMEMLOC") {
+  info(DESC, "Write memory Location to HDWR")
+  info(archive, "Monitor, 00:01:00")
+  field(DTYP, "stream")
+  field(OUT, "@Switch.proto setMemoryLoc Switch1")
+}
+
+
+record(aSub, "$(S):$(TA):$(DN):STATEPARSE"){
+  field(SNAM, "FindBools")
+  field(SCAN, "1 second")
+  field(FTA, "STRING")
+  field(NOA, "1")
+  field(INPA, "$(S):$(TA):$(DN):STATE")
+  field(NOA, "1")
+}
+
+
+
+
