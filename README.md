@@ -1,3 +1,9 @@
-# ages
+# Keithley Switch
+EPICS Driver developed by Mariano Ruiz, zma@ornl.gov
+Keithley switch GPIB
 
-AGES Gas handling
+
+Keithley switch 2700 GPIB EPICS driver. 
+
+
+EPICS Module ASYN drvAsynIPPortConfigure
